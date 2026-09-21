@@ -1,0 +1,576 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ExtractReport2_DailySalesReport" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ucas="clr-namespace:UiPath.Core.Activities.SAP;assembly=UiPath.UiAutomation.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_SAP" Type="InArgument(ui:Window)" />
+    <x:Property Name="in_CustomerID" Type="InArgument(x:String)" />
+    <x:Property Name="in_MatGroup" Type="InArgument(x:String)" />
+    <x:Property Name="in_MatGroup4" Type="InArgument(x:String)" />
+    <x:Property Name="in_Report1FilePath" Type="InArgument(x:String)" />
+    <x:Property Name="in_BillDateLow" Type="InArgument(x:String)" />
+    <x:Property Name="in_BillDateHigh" Type="InArgument(x:String)" />
+    <x:Property Name="in_OutputFolder" Type="InArgument(x:String)" />
+    <x:Property Name="in_Timestamp" Type="InArgument(x:String)" />
+    <x:Property Name="out_ReportFilePath" Type="OutArgument(x:String)" />
+    <x:Property Name="out_TotalYourBrand" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1461,6161</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Core.Activities.SAP</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.Mail</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
+      <x:String>UiPath.Mail.Outlook.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="156">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Forms</AssemblyReference>
+      <AssemblyReference>Microsoft.Win32.Primitives</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.Process</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.ViewModels</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="ExtractReport2_DailySalesReport" sap:VirtualizedContainerService.HintSize="496,6096" sap2010:WorkflowViewState.IdRef="Sequence_4">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="strFileName" />
+      <Variable x:TypeArguments="x:String" Name="strStatusBar" />
+      <Variable x:TypeArguments="x:String" Name="strStatusBarType" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtReport1" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtReport2" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="lstDocNos" />
+      <Variable x:TypeArguments="x:String" Name="strClipboardText" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnSaveDialogExists" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log [Report2] Start" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;[Report2] Extracting Daily Sales Report for &quot; + in_CustomerID + &quot; (MatGroup=&quot; + in_MatGroup + &quot;) via &quot; + in_Config(&quot;SapTCode_Report2&quot;).ToString]" />
+    <Assign DisplayName="Build strFileName" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strFileName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">["DailySalesReport_" + in_CustomerID + "_" + in_Timestamp + ".xlsx"]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Set out_ReportFilePath" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[out_ReportFilePath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Path.Combine(in_OutputFolder, strFileName)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Log [Report2] Copying Document Numbers" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;[Report2] Reading Report 1 output to copy Column B (Document no) to clipboard: &quot; + in_Report1FilePath]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke ReadExcelToDatatable (Report1 raw grid)" sap:VirtualizedContainerService.HintSize="434,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Common\ReadExcelToDatatable.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_SourceFile">[in_Report1FilePath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_SheetName">[""]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Range">[""]</InArgument>
+        <InArgument x:TypeArguments="x:Boolean" x:Key="in_IsColumnName">[False]</InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_DtResult">[dtReport1]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <Assign sap2010:Annotation.AnnotationText="Filters on 'is purely digits' rather than relying only on Skip(7) to land past the header row - a real Document No. is always numeric, so this excludes the 'Document no' header label (and any other stray text row) regardless of exactly how many metadata/header rows precede the data in the resaved file. Skip(7) is kept as a coarse first pass for performance, not as the correctness guarantee." DisplayName="Build lstDocNos from Column B, numeric values only" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(x:String)">[lstDocNos]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(x:String)">[dtReport1.AsEnumerable().Skip(7).Select(Function(r) r(1).ToString.Trim).Where(Function(s) Not String.IsNullOrEmpty(s) AndAlso s.All(AddressOf Char.IsDigit)).Distinct().ToList()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Build strClipboardText" sap:VirtualizedContainerService.HintSize="434,81" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strClipboardText]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[String.Join(Environment.NewLine, lstDocNos)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:LogMessage DisplayName="Log [Report2] Document Count" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;[Report2] &quot; + lstDocNos.Count.ToString + &quot; distinct document number(s) to upload via multi-selection&quot;]" />
+    <ui:SetToClipboard sap2010:Annotation.AnnotationText="ASSUMPTION - verify the exact 'Set Clipboard Text' activity name/property against the installed UiPath.System.Activities version (it may be SetToClipboard, or the newer System &gt; Clipboard scope activity)." DisplayName="Set Clipboard Text - Document Numbers" sap:VirtualizedContainerService.HintSize="434,60" sap2010:WorkflowViewState.IdRef="SetToClipboard_1" Text="[strClipboardText]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke NavigateToTCode" sap:VirtualizedContainerService.HintSize="434,113" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Workflows\NavigateToTCode.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+        <InArgument x:TypeArguments="ui:Window" x:Key="in_SapWindow">[in_SAP]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_TCode">[in_Config("SapTCode_Report2").ToString]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" AlterIfDisabled="True" sap2010:Annotation.AnnotationText="TODO (UI Explorer) - placeholder selector, not captured from a live SAP session for T-Code ZTHSD_OC_GEN_R023. Capture the real element with UI Explorer before running." DisplayName="Type Into - Sales Organization Field (PLACEHOLDER)" EmptyField="True" sap:VirtualizedContainerService.HintSize="434,155" sap2010:WorkflowViewState.IdRef="TypeInto_1" Text="[in_Config(&quot;SAP_Report2_SalesOrg&quot;).ToString]">
+      <ui:TypeInto.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="dbdda8ae-610a-4c2a-9dee-17160c75ca38" InformativeScreenshot="939250a0539a1f552f83c7774b36f8d8" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Daily Sales Report' /&gt;&lt;sap id='usr/ctxtS_VKORG-LOW' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:TypeInto.Target>
+    </ui:TypeInto>
+    <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" AlterIfDisabled="True" sap2010:Annotation.AnnotationText="TODO (UI Explorer) - placeholder selector, not captured from a live SAP session for T-Code ZTHSD_OC_GEN_R023. Capture the real element with UI Explorer before running." DisplayName="Type Into - Material Gr. Field (PLACEHOLDER)" EmptyField="True" sap:VirtualizedContainerService.HintSize="434,155" sap2010:WorkflowViewState.IdRef="TypeInto_2" Text="[in_MatGroup]">
+      <ui:TypeInto.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="b43f57c7-caff-48d7-95fb-6e4ecf9b8418" InformativeScreenshot="e147b591304277170e938ee067fb5e02" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Daily Sales Report' /&gt;&lt;sap id='usr/ctxtS_MATKL-LOW' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:TypeInto.Target>
+    </ui:TypeInto>
+    <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" AlterIfDisabled="True" sap2010:Annotation.AnnotationText="TODO (UI Explorer) - placeholder selector, not captured from a live SAP session for T-Code ZTHSD_OC_GEN_R023. Capture the real element with UI Explorer before running." DisplayName="Type Into - Customer Field (PLACEHOLDER)" EmptyField="True" sap:VirtualizedContainerService.HintSize="434,155" sap2010:WorkflowViewState.IdRef="TypeInto_3" Text="[in_CustomerID]">
+      <ui:TypeInto.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="eabf47b0-98b4-4386-b4fa-1841449f4fcc" InformativeScreenshot="ec7863368baf2a3597a5844aa75feb63" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Daily Sales Report' /&gt;&lt;sap id='usr/ctxtS_KUNAG-LOW' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:TypeInto.Target>
+    </ui:TypeInto>
+    <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" AlterIfDisabled="True" DisplayName="Type Into - Bill Date From Field" EmptyField="True" sap:VirtualizedContainerService.HintSize="434,155" sap2010:WorkflowViewState.IdRef="TypeInto_4" Text="[in_BillDateLow]">
+      <ui:TypeInto.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="8a24fee0-243f-40f9-864e-c57c80ee7b29" InformativeScreenshot="5b9f8e89d18a813b5984e74a83dfec19" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Daily Sales Report' /&gt;&lt;sap id='usr/ctxtS_FKDAT-LOW' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:TypeInto.Target>
+    </ui:TypeInto>
+    <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" AlterIfDisabled="True" DisplayName="Type Into - Bill Date To Field" EmptyField="True" sap:VirtualizedContainerService.HintSize="434,155" sap2010:WorkflowViewState.IdRef="TypeInto_5" Text="[in_BillDateHigh]">
+      <ui:TypeInto.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="c404b783-c4c9-4ddb-ac87-45c70b1fa205" InformativeScreenshot="de553028eddd0cd2287d12ef07b05a98" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Daily Sales Report' /&gt;&lt;sap id='usr/ctxtS_FKDAT-HIGH' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:TypeInto.Target>
+    </ui:TypeInto>
+    <ui:Click DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" AlterIfDisabled="True" sap2010:Annotation.AnnotationText="TODO (UI Explorer) - placeholder selector, not captured from a live SAP session for T-Code ZTHSD_OC_GEN_R023. Capture the real element with UI Explorer before running. This is the small multi-selection (yellow arrow) icon at the right edge of the Bill No. input field." ClickType="CLICK_SINGLE" DisplayName="Click - Multi Selection Icon on Bill No. Field (PLACEHOLDER)" sap:VirtualizedContainerService.HintSize="434,107" sap2010:WorkflowViewState.IdRef="Click_1" KeyModifiers="None" MouseButton="BTN_LEFT">
+      <ui:Click.CursorPosition>
+        <ui:CursorPosition Position="Center">
+          <ui:CursorPosition.OffsetX>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:CursorPosition.OffsetX>
+          <ui:CursorPosition.OffsetY>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:CursorPosition.OffsetY>
+        </ui:CursorPosition>
+      </ui:Click.CursorPosition>
+      <ui:Click.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="78a42f78-2591-4c0e-8dd9-76685754b695" InformativeScreenshot="9c6b90cab21580f33069a3a2e18fc327" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Daily Sales Report' /&gt;&lt;sap id='usr/btn%_S_VBELN_%_APP_%-VALU_PUSH' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:Click.Target>
+    </ui:Click>
+    <Delay DisplayName="Delay - Wait for Multi Selection Popup" Duration="[TimeSpan.FromSeconds(1.5)]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Delay_1" />
+    <ui:LogMessage DisplayName="Log [Report2] Uploading from Clipboard" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[&quot;[Report2] Multi-selection popup open - uploading document numbers from clipboard (Shift+F12)&quot;]" />
+    <ui:SendHotkey ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DisplayName="Send Hotkey - Shift+F12 (Upload from Clipboard)" sap:VirtualizedContainerService.HintSize="434,153" sap2010:WorkflowViewState.IdRef="SendHotkey_1" Key="f12" KeyModifiers="Shift" SpecialKey="True">
+      <ui:SendHotkey.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="fe8b5c3f-f497-43bd-9ad9-de2bf863c978" InformativeScreenshot="09cb24bcbf39cb2ce459f32524e8bf0a" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Multiple Selection for Bill No.' idx='*' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:SendHotkey.Target>
+    </ui:SendHotkey>
+    <Delay DisplayName="Delay - Wait for Upload" Duration="[TimeSpan.FromSeconds(1)]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Delay_2" />
+    <ui:SendHotkey ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DisplayName="Send Hotkey - F8 (Copy/Confirm Popup)" sap:VirtualizedContainerService.HintSize="434,153" sap2010:WorkflowViewState.IdRef="SendHotkey_2" Key="f8" KeyModifiers="None" SpecialKey="True">
+      <ui:SendHotkey.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="10da968f-09c6-499e-8e93-285378ff5672" InformativeScreenshot="09cb24bcbf39cb2ce459f32524e8bf0a" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Multiple Selection for Bill No.' idx='*' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:SendHotkey.Target>
+    </ui:SendHotkey>
+    <Delay DisplayName="Delay - Wait for Popup Close" Duration="[TimeSpan.FromSeconds(1)]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Delay_3" />
+    <ui:LogMessage DisplayName="Log [Report2] Executing" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Info" Message="[&quot;[Report2] Back on main screen - executing (F8)&quot;]" />
+    <ui:SendHotkey ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DisplayName="Send Hotkey - F8 (Execute Report)" sap:VirtualizedContainerService.HintSize="434,153" sap2010:WorkflowViewState.IdRef="SendHotkey_3" Key="f8" KeyModifiers="None" SpecialKey="True">
+      <ui:SendHotkey.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="32eba62e-bcdb-4eb4-90c0-3c0620d01e0d" InformativeScreenshot="aa2ff05c7ab2d1ff68f4896fdf82ff59" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Daily Sales Report' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:SendHotkey.Target>
+    </ui:SendHotkey>
+    <Delay DisplayName="Delay - Wait for Report to Render" Duration="[TimeSpan.FromSeconds(3)]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Delay_4" />
+    <ucas:ReadStatusbar ContinueOnError="{x:Null}" MessageData="{x:Null}" MessageId="{x:Null}" MessageNumber="{x:Null}" DisplayName="ReadStatusbar - Check SAP Status After Execute" sap:VirtualizedContainerService.HintSize="434,246" sap2010:WorkflowViewState.IdRef="ReadStatusbar_1" MessageText="[strStatusBar]" MessageType="[strStatusBarType]">
+      <ucas:ReadStatusbar.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="a4e24338-ebde-468e-ada3-a7c5d8962354" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Daily Sales Report' /&gt;&lt;sap id='sbar/pane[0]' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ucas:ReadStatusbar.Target>
+    </ucas:ReadStatusbar>
+    <If Condition="[strStatusBarType = &quot;E&quot; OrElse (Not String.IsNullOrEmpty(strStatusBar) AndAlso (strStatusBar.Contains(&quot;Error&quot;) OrElse strStatusBar.Contains(&quot;error&quot;) OrElse strStatusBar.Contains(&quot;ไม่&quot;)))]" DisplayName="If SAP Status Shows Error - Throw BRE" sap:VirtualizedContainerService.HintSize="434,272" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Throw DisplayName="Throw AppEx - SAP Error" Exception="[New Exception(&quot;[Report2] SAP error after F8: &quot; + strStatusBar)]" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Throw_1" />
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="" sap2010:WorkflowViewState.IdRef="Sequence_1" />
+      </If.Else>
+    </If>
+    <ui:LogMessage DisplayName="Log [Report2] Exporting" sap:VirtualizedContainerService.HintSize="434,141" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Info" Message="[&quot;[Report2] Exporting via List/Export/Spreadsheet... -&gt; &quot; + out_ReportFilePath]" />
+    <ucas:ClickToolbarButton ContinueOnError="{x:Null}" DelayAfter="{x:Null}" DelayBefore="{x:Null}" AlterIfDisabled="True" DisplayName="Click Toolbar Button - List/Export/Spreadsheet..." sap2010:Annotation.AnnotationText="Ported from PB_Template_Auto_Upload\Workflows\PB_GenerateSAPReport.xaml's Daily Sales export step (same T-Code ZTHSD_OC_GEN_R023, already verified working there) - replaces the previous Ctrl+Shift+F7 shortcut." Item="List/Export/Spreadsheet...">
+      <ucas:ClickToolbarButton.Items>
+        <scg:List x:TypeArguments="x:String" Capacity="50">
+          <x:String>Edit/Find</x:String>
+          <x:String>Edit/Cancel</x:String>
+          <x:String>Goto/ABC Analysis</x:String>
+          <x:String>Goto/Back</x:String>
+          <x:String>Views/SAP List Viewer</x:String>
+          <x:String>Views/Microsoft Excel</x:String>
+          <x:String>Views/Lotus 1-2-3</x:String>
+          <x:String>Views/Crystal reports</x:String>
+          <x:String>Views/Graphic</x:String>
+          <x:String>Settings/Define Totals Drilldown...</x:String>
+          <x:String>System/New GUI Window</x:String>
+          <x:String>System/Close GUI Window</x:String>
+          <x:String>System/Services for Object</x:String>
+          <x:String>System/Own Spool Requests</x:String>
+          <x:String>System/Own Jobs</x:String>
+          <x:String>System/Short Message</x:String>
+          <x:String>System/Status...</x:String>
+          <x:String>System/Log Off</x:String>
+          <x:String>Help/Product Assistance</x:String>
+          <x:String>Help/SAP Help Portal</x:String>
+          <x:String>Help/SAP Support Portal</x:String>
+          <x:String>Help/Create Support Message</x:String>
+          <x:String>Help/Settings...</x:String>
+          <x:String>List/Export/Word processing...</x:String>
+          <x:String>List/Export/Spreadsheet...</x:String>
+          <x:String>List/Export/Local file...</x:String>
+          <x:String>List/Send to/Mail Recipient</x:String>
+          <x:String>List/Send to/Folder</x:String>
+          <x:String>Edit/Calculate/Total</x:String>
+          <x:String>Edit/Calculate/Mean value</x:String>
+          <x:String>Edit/Calculate/Minimum</x:String>
+          <x:String>Edit/Calculate/Maximum</x:String>
+          <x:String>Edit/Calculate/Count</x:String>
+          <x:String>Settings/Layout/Change...</x:String>
+          <x:String>Settings/Layout/Choose...</x:String>
+          <x:String>Settings/Layout/Saving...</x:String>
+          <x:String>Settings/Layout/Layout Management</x:String>
+          <x:String>Settings/Columns/Optimize width</x:String>
+          <x:String>Settings/Columns/Freeze to column</x:String>
+          <x:String>Settings/Columns/Unfreeze</x:String>
+          <x:String>System/User Profile/Hold Data</x:String>
+          <x:String>System/User Profile/Set Data</x:String>
+          <x:String>System/User Profile/Delete Data</x:String>
+          <x:String>System/User Profile/User Data</x:String>
+          <x:String>System/User Profile/Expand Favorites</x:String>
+          <x:String>System/Services/Reporting</x:String>
+          <x:String>System/Services/QuickViewer</x:String>
+          <x:String>System/Services/Output Control</x:String>
+          <x:String>System/Services/Direct Input</x:String>
+          <x:String>System/Services/Queue</x:String>
+        </scg:List>
+      </ucas:ClickToolbarButton.Items>
+      <ucas:ClickToolbarButton.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Daily Sales Report' /&gt;&lt;sap id='mbar' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ucas:ClickToolbarButton.Target>
+    </ucas:ClickToolbarButton>
+    <Delay DisplayName="Delay - Wait for Select Spreadsheet Dialog" Duration="[TimeSpan.FromSeconds(2)]" />
+    <ui:Click DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" AlterIfDisabled="True" ClickType="CLICK_SINGLE" DisplayName="Click - Confirm Select Spreadsheet Dialog">
+      <ui:Click.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Select Spreadsheet' idx='*' /&gt;&lt;sap id='tbar[0]/btn[0]' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:Click.Target>
+    </ui:Click>
+    <Delay sap2010:Annotation.AnnotationText="Increased from 3s to 5s - a live UI Explorer re-capture of the following UiElementExists check caught the 'Select Spreadsheet' dialog still on screen instead of 'Save File', suggesting the transition between the two dialogs may take longer here than in Report 1's identical flow. Revisit if 'Select Spreadsheet' turns out to be the only dialog in this flow rather than a timing issue." DisplayName="Delay - Wait for Save File Dialog" Duration="[TimeSpan.FromSeconds(5)]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Delay_5" />
+    <ui:UiElementExists DisplayName="Element Exists - 'Save File' Dialog" Exists="[blnSaveDialogExists]">
+      <ui:UiElementExists.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Save File' idx='*' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:UiElementExists.Target>
+    </ui:UiElementExists>
+    <ui:LogMessage DisplayName="Log - Save File Dialog Check" Level="Info" Message="[&quot;[Report2] Save File dialog exists: &quot; + blnSaveDialogExists.ToString]" />
+    <If Condition="[Not blnSaveDialogExists]" DisplayName="If Save File Dialog Not Found - Throw AppEx">
+      <If.Then>
+        <Throw DisplayName="Throw AppEx - Save File Dialog Did Not Appear" Exception="[New Exception(&quot;[Report2] 'Save File' dialog did not appear after export via List/Export/Spreadsheet...&quot;)]" />
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="" />
+      </If.Else>
+    </If>
+    <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" AlterIfDisabled="True" DisplayName="Type Into - Save Dialog Folder" EmptyField="True" sap:VirtualizedContainerService.HintSize="434,135" sap2010:WorkflowViewState.IdRef="TypeInto_6" Text="[in_OutputFolder]">
+      <ui:TypeInto.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="77066ce4-4e61-44b2-88c7-9ad349a4669a" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Save File' idx='*' /&gt;&lt;sap id='usr/ctxtDY_PATH' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:TypeInto.Target>
+    </ui:TypeInto>
+    <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" AlterIfDisabled="True" DisplayName="Type Into - Save Dialog File Name" EmptyField="True" sap:VirtualizedContainerService.HintSize="434,135" sap2010:WorkflowViewState.IdRef="TypeInto_7" Text="[strFileName]">
+      <ui:TypeInto.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="a7861d7c-60f9-4766-8c72-0e8dfced2c50" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Save File' idx='*' /&gt;&lt;sap id='usr/ctxtDY_FILENAME' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:TypeInto.Target>
+    </ui:TypeInto>
+    <ui:Click DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" AlterIfDisabled="True" ClickType="CLICK_SINGLE" DisplayName="Click - Replace/Generate Button" sap:VirtualizedContainerService.HintSize="434,87" sap2010:WorkflowViewState.IdRef="Click_2" KeyModifiers="None" MouseButton="BTN_LEFT">
+      <ui:Click.CursorPosition>
+        <ui:CursorPosition Position="Center">
+          <ui:CursorPosition.OffsetX>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:CursorPosition.OffsetX>
+          <ui:CursorPosition.OffsetY>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:CursorPosition.OffsetY>
+        </ui:CursorPosition>
+      </ui:Click.CursorPosition>
+      <ui:Click.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1113b70-c7bf-46b8-b328-9b6fdc1db1ec" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Save File' idx='*' /&gt;&lt;sap id='tbar[0]/btn[11]' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:Click.Target>
+    </ui:Click>
+    <Delay DisplayName="Delay - Wait for File Write" Duration="[TimeSpan.FromSeconds(2)]" sap:VirtualizedContainerService.HintSize="434,90" sap2010:WorkflowViewState.IdRef="Delay_6" />
+    <ucas:ReadStatusbar ContinueOnError="{x:Null}" MessageData="{x:Null}" MessageId="{x:Null}" MessageNumber="{x:Null}" DisplayName="ReadStatusbar - Verify No Error After Save" MessageText="[strStatusBar]" MessageType="[strStatusBarType]">
+      <ucas:ReadStatusbar.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' /&gt;&lt;sap id='sbar/pane[0]' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ucas:ReadStatusbar.Target>
+    </ucas:ReadStatusbar>
+    <ui:LogMessage DisplayName="Log - Status Bar After Save" Level="Info" Message="[&quot;[Report2] Status bar after save: [&quot; + strStatusBarType + &quot;] &quot; + strStatusBar]" />
+    <If Condition="[Not File.Exists(out_ReportFilePath)]" DisplayName="If File Not Found - Throw BRE" sap2010:WorkflowViewState.IdRef="If_2">
+      <If.Then>
+        <Throw DisplayName="Throw AppEx - Export File Missing" Exception="[New Exception(&quot;[Report2] Export completed but file not found at: &quot; + out_ReportFilePath)]" sap2010:WorkflowViewState.IdRef="Throw_2" />
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="" sap2010:WorkflowViewState.IdRef="Sequence_2" />
+      </If.Else>
+    </If>
+    <ui:LogMessage DisplayName="Log [Report2] Parsing Sales Amt. Total" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;[Report2] Reading &quot; + out_ReportFilePath + &quot; to extract the last row's Sales Amt. total by header name&quot;]" />
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke ReadExcelToDatatable (headers at row 1)" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Common\ReadExcelToDatatable.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="in_SourceFile">[out_ReportFilePath]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_SheetName">[""]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Range">[""]</InArgument>
+        <InArgument x:TypeArguments="x:Boolean" x:Key="in_IsColumnName">[True]</InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_DtResult">[dtReport2]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <If Condition="[Not dtReport2.Columns.Contains(&quot;Sales Amt.&quot;)]" DisplayName="If Sales Amt. Column Missing - Throw AppEx (structural problem, worth retrying)" sap2010:WorkflowViewState.IdRef="If_3">
+      <If.Then>
+        <Throw DisplayName="Throw AppEx - Sales Amt. Column Missing" Exception="[New Exception(&quot;[Report2] Expected header 'Sales Amt.' not found in exported file. Actual columns: &quot; + String.Join(&quot;, &quot;, dtReport2.Columns.Cast(Of DataColumn)().Select(Function(c) c.ColumnName)))]" sap2010:WorkflowViewState.IdRef="Throw_3" />
+      </If.Then>
+      <If.Else>
+        <If Condition="[dtReport2.Rows.Count &gt; 0]" sap2010:Annotation.AnnotationText="Zero rows here is a legitimate outcome, not an error: Section 5's whole point is that the Bill No./Material Group filter narrows Report 2 down to only the sender's registered brand, so a customer whose outstanding documents don't include that brand will correctly produce an empty (header-only) export. Treat it as TotalYourBrand=0.00, not a retry-worthy failure - retrying re-runs the same ~65s SAP extraction and gets the same empty result every time, which is what looked like an infinite loop." DisplayName="If Has Rows - Use Last Row, Else - Zero">
+          <If.Then>
+            <Assign DisplayName="Set out_TotalYourBrand (last row, Sales Amt. column, by header name)">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[out_TotalYourBrand]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[dtReport2.Rows(dtReport2.Rows.Count - 1)("Sales Amt.").ToString.Trim]</InArgument>
+              </Assign.Value>
+            </Assign>
+          </If.Then>
+          <If.Else>
+            <Sequence DisplayName="No Rows for This Brand - Total is Zero">
+              <Assign DisplayName="Set out_TotalYourBrand = 0.00">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:String">[out_TotalYourBrand]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:String">0.00</InArgument>
+                </Assign.Value>
+              </Assign>
+              <ui:LogMessage DisplayName="Log [Report2] No Rows for This Brand" Level="Warn" Message="[&quot;[Report2] Export has the 'Sales Amt.' column but zero data rows for MatGroup=&quot; + in_MatGroup + &quot; - none of this customer's outstanding documents belong to the sender's registered brand. Treating TotalYourBrand as 0.00.&quot;]" />
+            </Sequence>
+          </If.Else>
+        </If>
+      </If.Else>
+    </If>
+    <ui:LogMessage DisplayName="Log [Report2] Done" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;[Report2] Done. File=&quot; + out_ReportFilePath + &quot; | TotalYourBrand=&quot; + out_TotalYourBrand]" />
+  </Sequence>
+</Activity>

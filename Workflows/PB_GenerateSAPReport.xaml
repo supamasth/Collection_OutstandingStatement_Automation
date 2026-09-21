@@ -1,0 +1,518 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="PB_GenerateSAPReport" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ucas="clr-namespace:UiPath.Core.Activities.SAP;assembly=UiPath.UiAutomation.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_SapWindow" Type="InArgument(ui:Window)" />
+    <x:Property Name="out_strReportFilePath" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1461,7208</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Core.Activities.SAP</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="56">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>Microsoft.Win32.Primitives</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Runtime.InteropServices</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.ViewModels</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="PB_GenerateSAPReport" sap:VirtualizedContainerService.HintSize="582,7143" sap2010:WorkflowViewState.IdRef="Sequence_Main">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="strVariant" />
+      <Variable x:TypeArguments="x:String" Name="strLayout" />
+      <Variable x:TypeArguments="x:String" Name="strSaveDir" />
+      <Variable x:TypeArguments="x:String" Name="strSaveFileName" />
+      <Variable x:TypeArguments="x:String" Name="strReportFilePath" />
+      <Variable x:TypeArguments="x:String" Name="strStatusBar" />
+      <Variable x:TypeArguments="x:String" Name="strStatusBarType" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnSaveDialogExists" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log [PB_GenerateSAPReport] Start" sap:VirtualizedContainerService.HintSize="520,141" sap2010:WorkflowViewState.IdRef="LogMsg_Start" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Generating PB daily report from &quot; &amp; in_Config(&quot;SapTCode_PBReport&quot;).ToString]" />
+    <Assign DisplayName="Assign strVariant from Config" sap:VirtualizedContainerService.HintSize="520,82" sap2010:WorkflowViewState.IdRef="Assign_Variant">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strVariant]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[in_Config("SAP_PBReport_Variant").ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign strLayout from Config" sap:VirtualizedContainerService.HintSize="520,82" sap2010:WorkflowViewState.IdRef="Assign_Layout">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strLayout]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[in_Config("SAP_PBReport_Layout").ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign strSaveDir from Config" sap:VirtualizedContainerService.HintSize="520,82" sap2010:WorkflowViewState.IdRef="Assign_SaveDir">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strSaveDir]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[in_Config("PBReport_TempFolder").ToString]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign strSaveFileName (xlsx)" sap:VirtualizedContainerService.HintSize="520,82" sap2010:WorkflowViewState.IdRef="Assign_FileName">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strSaveFileName]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">["PB_Report_" &amp; DateTime.Now.ToString("yyyyMMdd_HHmm") &amp; ".xlsx"]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Assign strReportFilePath = Dir + FileName" sap:VirtualizedContainerService.HintSize="520,82" sap2010:WorkflowViewState.IdRef="Assign_ReportPath">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strReportFilePath]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[IO.Path.Combine(strSaveDir, strSaveFileName)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <TryCatch DisplayName="TryCatch — Generate PB Report (BRE + AppEx)" sap:VirtualizedContainerService.HintSize="520,6060" sap2010:WorkflowViewState.IdRef="TryCatch_Generate">
+      <TryCatch.Try>
+        <Sequence DisplayName="Navigate → Variant → Layout → Execute → Export" sap:VirtualizedContainerService.HintSize="482,5810" sap2010:WorkflowViewState.IdRef="Seq_Try">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:LogMessage DisplayName="Log — Step 1: Navigate to TCode" sap:VirtualizedContainerService.HintSize="420,141" sap2010:WorkflowViewState.IdRef="LogMsg_Nav" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Step 1 — Navigating to &quot; &amp; in_Config(&quot;SapTCode_PBReport&quot;).ToString]" />
+          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke NavigateToTCode (ZTHFI_OC_GEN_R121)" sap:VirtualizedContainerService.HintSize="420,113" sap2010:WorkflowViewState.IdRef="Invoke_Nav" UnSafe="False" WorkflowFileName="Workflows\NavigateToTCode.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+              <InArgument x:TypeArguments="ui:Window" x:Key="in_SapWindow">[in_SapWindow]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_TCode">[in_Config("SapTCode_PBReport").ToString]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <ui:LogMessage DisplayName="Log — Step 2: Applying Variant" sap:VirtualizedContainerService.HintSize="420,141" sap2010:WorkflowViewState.IdRef="LogMsg_Variant" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Step 2 — Applying SAP variant: &quot; &amp; strVariant]" />
+          <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click — Get Variant Button" sap:VirtualizedContainerService.HintSize="420,107" sap2010:WorkflowViewState.IdRef="Click_GetVariant" KeyModifiers="None" MouseButton="BTN_LEFT">
+            <ui:Click.CursorPosition>
+              <ui:CursorPosition Position="Center">
+                <ui:CursorPosition.OffsetX>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:CursorPosition.OffsetX>
+                <ui:CursorPosition.OffsetY>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:CursorPosition.OffsetY>
+              </ui:CursorPosition>
+            </ui:Click.CursorPosition>
+            <ui:Click.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0001-0001-0001-000000000001" InformativeScreenshot="db0e68c5bd63eba6e9a2ad6c1573b502" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Problem bill report' /&gt;&lt;sap id='tbar[1]/btn[17]' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:Click.Target>
+          </ui:Click>
+          <Delay DisplayName="Delay — Wait for Get Variant Dialog" Duration="[TimeSpan.FromSeconds(1)]" sap:VirtualizedContainerService.HintSize="420,90" sap2010:WorkflowViewState.IdRef="Delay_VarDialog" />
+          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="Type Into — Variant Name Field in Dialog" EmptyField="True" sap:VirtualizedContainerService.HintSize="420,155" sap2010:WorkflowViewState.IdRef="TypeInto_VarName" Text="[strVariant]">
+            <ui:TypeInto.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0002-0001-0001-000000000001" InformativeScreenshot="88802c5663b946fd05b1edd2a4f4d4ef" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Find Variant' idx='*' /&gt;&lt;sap id='usr/txtV-LOW' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:TypeInto.Target>
+          </ui:TypeInto>
+          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="Type Into — EmptyCreate By" EmptyField="True" sap:VirtualizedContainerService.HintSize="420,155" sap2010:WorkflowViewState.IdRef="TypeInto_1">
+            <ui:TypeInto.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0002-0001-0001-000000000001" InformativeScreenshot="78d5caef49a5c6d4ca54f3c5c807f29a" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Find Variant' idx='*' /&gt;&lt;sap id='usr/txtENAME-LOW' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:TypeInto.Target>
+            <ui:TypeInto.Text>
+              <InArgument x:TypeArguments="x:String">
+                <Literal x:TypeArguments="x:String" Value="" />
+              </InArgument>
+            </ui:TypeInto.Text>
+          </ui:TypeInto>
+          <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click — Get Variant Button" sap:VirtualizedContainerService.HintSize="420,107" sap2010:WorkflowViewState.IdRef="Click_1" KeyModifiers="None" MouseButton="BTN_LEFT">
+            <ui:Click.CursorPosition>
+              <ui:CursorPosition Position="Center">
+                <ui:CursorPosition.OffsetX>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:CursorPosition.OffsetX>
+                <ui:CursorPosition.OffsetY>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:CursorPosition.OffsetY>
+              </ui:CursorPosition>
+            </ui:Click.CursorPosition>
+            <ui:Click.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0001-0001-0001-000000000001" InformativeScreenshot="d9349d0713f428fecaad6f5b685ae974" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Find Variant' idx='*' /&gt;&lt;sap id='tbar[0]/btn[8]' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:Click.Target>
+          </ui:Click>
+          <Delay DisplayName="Delay — Wait for Variant Applied" Duration="[TimeSpan.FromSeconds(1)]" sap:VirtualizedContainerService.HintSize="420,90" sap2010:WorkflowViewState.IdRef="Delay_VarApplied" />
+          <ui:LogMessage DisplayName="Log — Step 3: Setting Layout" sap:VirtualizedContainerService.HintSize="420,141" sap2010:WorkflowViewState.IdRef="LogMsg_Layout" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Step 3 — Setting layout: &quot; &amp; strLayout]" />
+          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="Type Into — Layout Field on Selection Screen" EmptyField="True" sap:VirtualizedContainerService.HintSize="420,155" sap2010:WorkflowViewState.IdRef="TypeInto_Layout" Text="[strLayout]">
+            <ui:TypeInto.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0004-0001-0001-000000000001" InformativeScreenshot="5a6a6f6503bcc2cf20116d80b09e4d8d" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Problem bill report' /&gt;&lt;sap id='usr/ctxtP_LAYOUT' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:TypeInto.Target>
+          </ui:TypeInto>
+          <ui:LogMessage DisplayName="Log — Step 4: Execute F8" sap:VirtualizedContainerService.HintSize="420,141" sap2010:WorkflowViewState.IdRef="LogMsg_Execute" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Step 4 — Executing F8 to run report&quot;]" />
+          <ui:SendHotkey ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DisplayName="Send Hotkey — F8 (Execute Report)" sap:VirtualizedContainerService.HintSize="420,133" sap2010:WorkflowViewState.IdRef="SendHotkey_F8" Key="f8" KeyModifiers="None" SpecialKey="True">
+            <ui:SendHotkey.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Selector="{x:Null}" Id="f1a00001-0005-0001-0001-000000000001">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:SendHotkey.Target>
+          </ui:SendHotkey>
+          <Delay DisplayName="Delay — Wait for Report to Render (3s)" Duration="[TimeSpan.FromSeconds(3)]" sap:VirtualizedContainerService.HintSize="420,90" sap2010:WorkflowViewState.IdRef="Delay_Report" />
+          <ucas:ReadStatusbar ContinueOnError="{x:Null}" MessageData="{x:Null}" MessageId="{x:Null}" MessageNumber="{x:Null}" DisplayName="ReadStatusbar — Check SAP Status After Execute" sap:VirtualizedContainerService.HintSize="420,266" sap2010:WorkflowViewState.IdRef="ReadStatusbar_AfterExec" MessageText="[strStatusBar]" MessageType="[strStatusBarType]">
+            <ucas:ReadStatusbar.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0006-0001-0001-000000000001" InformativeScreenshot="8a0c1a1c1d5b6e4ffa1a1d4776550928" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' /&gt;&lt;sap id='sbar/pane[0]' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ucas:ReadStatusbar.Target>
+          </ucas:ReadStatusbar>
+          <If Condition="[strStatusBarType = &quot;E&quot; OrElse (Not String.IsNullOrEmpty(strStatusBar) AndAlso (strStatusBar.Contains(&quot;Error&quot;) OrElse strStatusBar.Contains(&quot;error&quot;)))]" DisplayName="If SAP Status Bar Shows Error After Execute → Throw BRE" sap:VirtualizedContainerService.HintSize="420,272" sap2010:WorkflowViewState.IdRef="If_ExecError">
+            <If.Then>
+              <Throw DisplayName="Throw BRE — SAP Error After Execute" Exception="[New BusinessRuleException(&quot;[PB_GenerateSAPReport] SAP error after F8: &quot; &amp; strStatusBar)]" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Throw_ExecBRE" />
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="" sap:VirtualizedContainerService.HintSize="300,80" sap2010:WorkflowViewState.IdRef="Seq_ExecOK">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </Sequence>
+            </If.Else>
+          </If>
+          <ui:LogMessage DisplayName="Log — Step 5: Exporting Report (Ctrl+Shift+F9)" sap:VirtualizedContainerService.HintSize="420,141" sap2010:WorkflowViewState.IdRef="LogMsg_Export" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Step 5 — Sending Ctrl+Shift+F9 to open export dialog&quot;]" />
+          <ucas:ClickToolbarButton ContinueOnError="{x:Null}" DelayAfter="{x:Null}" DelayBefore="{x:Null}" AlterIfDisabled="True" DisplayName="Click Toolbar Button (Open Export Popup)" sap:VirtualizedContainerService.HintSize="420,160" sap2010:WorkflowViewState.IdRef="ClickToolbarButton_1" Item="List/Export/Spreadsheet...">
+            <ucas:ClickToolbarButton.Items>
+              <scg:List x:TypeArguments="x:String" Capacity="50">
+                <x:String>Edit/Find</x:String>
+                <x:String>Edit/Cancel</x:String>
+                <x:String>Goto/ABC Analysis</x:String>
+                <x:String>Goto/Back</x:String>
+                <x:String>Views/SAP List Viewer</x:String>
+                <x:String>Views/Microsoft Excel</x:String>
+                <x:String>Views/Lotus 1-2-3</x:String>
+                <x:String>Views/Crystal reports</x:String>
+                <x:String>Views/Graphic</x:String>
+                <x:String>Settings/Define Totals Drilldown...</x:String>
+                <x:String>System/New GUI Window</x:String>
+                <x:String>System/Close GUI Window</x:String>
+                <x:String>System/Services for Object</x:String>
+                <x:String>System/Own Spool Requests</x:String>
+                <x:String>System/Own Jobs</x:String>
+                <x:String>System/Short Message</x:String>
+                <x:String>System/Status...</x:String>
+                <x:String>System/Log Off</x:String>
+                <x:String>Help/Product Assistance</x:String>
+                <x:String>Help/SAP Help Portal</x:String>
+                <x:String>Help/SAP Support Portal</x:String>
+                <x:String>Help/Create Support Message</x:String>
+                <x:String>Help/Settings...</x:String>
+                <x:String>List/Export/Word processing...</x:String>
+                <x:String>List/Export/Spreadsheet...</x:String>
+                <x:String>List/Export/Local file...</x:String>
+                <x:String>List/Send to/Mail Recipient</x:String>
+                <x:String>List/Send to/Folder</x:String>
+                <x:String>Edit/Calculate/Total</x:String>
+                <x:String>Edit/Calculate/Mean value</x:String>
+                <x:String>Edit/Calculate/Minimum</x:String>
+                <x:String>Edit/Calculate/Maximum</x:String>
+                <x:String>Edit/Calculate/Count</x:String>
+                <x:String>Settings/Layout/Change...</x:String>
+                <x:String>Settings/Layout/Choose...</x:String>
+                <x:String>Settings/Layout/Saving...</x:String>
+                <x:String>Settings/Layout/Layout Management</x:String>
+                <x:String>Settings/Columns/Optimize width</x:String>
+                <x:String>Settings/Columns/Freeze to column</x:String>
+                <x:String>Settings/Columns/Unfreeze</x:String>
+                <x:String>System/User Profile/Hold Data</x:String>
+                <x:String>System/User Profile/Set Data</x:String>
+                <x:String>System/User Profile/Delete Data</x:String>
+                <x:String>System/User Profile/User Data</x:String>
+                <x:String>System/User Profile/Expand Favorites</x:String>
+                <x:String>System/Services/Reporting</x:String>
+                <x:String>System/Services/QuickViewer</x:String>
+                <x:String>System/Services/Output Control</x:String>
+                <x:String>System/Services/Direct Input</x:String>
+                <x:String>System/Services/Queue</x:String>
+              </scg:List>
+            </ucas:ClickToolbarButton.Items>
+            <ucas:ClickToolbarButton.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="6c1b57b4-142c-43ff-8163-7bcec05b0620" InformativeScreenshot="2be4cc8ecb1f78e4eee74694e429abd7" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' title='TH: Problem bill report' /&gt;&lt;sap id='mbar' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ucas:ClickToolbarButton.Target>
+          </ucas:ClickToolbarButton>
+          <Delay DisplayName="Delay — Wait for Format Dialog" Duration="[TimeSpan.FromSeconds(2)]" sap:VirtualizedContainerService.HintSize="420,90" sap2010:WorkflowViewState.IdRef="Delay_FormatDialog" />
+          <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click — Spreadsheet Radio Button" sap:VirtualizedContainerService.HintSize="420,107" sap2010:WorkflowViewState.IdRef="Click_Spreadsheet" KeyModifiers="None" MouseButton="BTN_LEFT">
+            <ui:Click.CursorPosition>
+              <ui:CursorPosition Position="Center">
+                <ui:CursorPosition.OffsetX>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:CursorPosition.OffsetX>
+                <ui:CursorPosition.OffsetY>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:CursorPosition.OffsetY>
+              </ui:CursorPosition>
+            </ui:Click.CursorPosition>
+            <ui:Click.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0008-0001-0001-000000000001" InformativeScreenshot="4b71085f890c8ff1e3563afae7c55f7c" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Select Spreadsheet' idx='*' /&gt;&lt;sap id='tbar[0]/btn[0]' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:Click.Target>
+          </ui:Click>
+          <Delay DisplayName="Delay — Wait for Save File Dialog" Duration="[TimeSpan.FromSeconds(3)]" sap:VirtualizedContainerService.HintSize="420,90" sap2010:WorkflowViewState.IdRef="Delay_SaveDialog" />
+          <ui:UiElementExists DisplayName="Element Exists — 'Save File' Dialog" Exists="[blnSaveDialogExists]" sap:VirtualizedContainerService.HintSize="420,107" sap2010:WorkflowViewState.IdRef="UiElementExists_SaveFile">
+            <ui:UiElementExists.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0010-0001-0001-000000000001" InformativeScreenshot="37c9305dc13250ac1282e1946ba92003" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Save File' idx='*' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:UiElementExists.Target>
+          </ui:UiElementExists>
+          <ui:LogMessage DisplayName="Log — Save File Dialog Check" sap:VirtualizedContainerService.HintSize="420,141" sap2010:WorkflowViewState.IdRef="LogMsg_SaveDialog" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Save File dialog exists: &quot; &amp; blnSaveDialogExists.ToString &amp; &quot; | Path: &quot; &amp; strReportFilePath]" />
+          <If Condition="[Not blnSaveDialogExists]" DisplayName="If Save File Dialog Not Found → Throw BRE" sap:VirtualizedContainerService.HintSize="420,272" sap2010:WorkflowViewState.IdRef="If_NoSaveDialog">
+            <If.Then>
+              <Throw DisplayName="Throw BRE — Save File Dialog Did Not Appear" Exception="[New BusinessRuleException(&quot;[PB_GenerateSAPReport] 'Save File' dialog did not appear after export. Check that the report ran successfully and the Ctrl+Shift+F9 export shortcut is available on &quot; &amp; in_Config(&quot;SapTCode_PBReport&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="334,90" sap2010:WorkflowViewState.IdRef="Throw_NoDialog" />
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="" sap2010:WorkflowViewState.IdRef="Seq_DialogOK" />
+            </If.Else>
+          </If>
+          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="Type Into — Save File Dialog: Directory Path (DY_PATH)" EmptyField="True" sap:VirtualizedContainerService.HintSize="420,155" sap2010:WorkflowViewState.IdRef="TypeInto_SavePath" Text="[strSaveDir]">
+            <ui:TypeInto.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0011-0001-0001-000000000001" InformativeScreenshot="135f288a4fb4c6428bcf69d8c44ef78a" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Save File' idx='*' /&gt;&lt;sap id='usr/ctxtDY_PATH' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:TypeInto.Target>
+          </ui:TypeInto>
+          <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="Type Into — Save File Dialog: File Name (DY_FILENAME)" EmptyField="True" sap:VirtualizedContainerService.HintSize="420,155" sap2010:WorkflowViewState.IdRef="TypeInto_SaveName" Text="[strSaveFileName]">
+            <ui:TypeInto.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0012-0001-0001-000000000001" InformativeScreenshot="0b0255a171f8be1c1c899066b99d56f2" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Save File' idx='*' /&gt;&lt;sap id='usr/ctxtDY_FILENAME' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:TypeInto.Target>
+          </ui:TypeInto>
+          <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="Click — Replace Button in Save File Dialog" sap:VirtualizedContainerService.HintSize="420,107" sap2010:WorkflowViewState.IdRef="Click_Replace" KeyModifiers="None" MouseButton="BTN_LEFT">
+            <ui:Click.CursorPosition>
+              <ui:CursorPosition Position="Center">
+                <ui:CursorPosition.OffsetX>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:CursorPosition.OffsetX>
+                <ui:CursorPosition.OffsetY>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:CursorPosition.OffsetY>
+              </ui:CursorPosition>
+            </ui:Click.CursorPosition>
+            <ui:Click.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0013-0001-0001-000000000001" InformativeScreenshot="6e5511db61b43031448809e370640b31" Selector="&lt;wnd app='saplogon.exe' cls='#32770' title='Save File' idx='*' /&gt;&lt;sap id='tbar[0]/btn[11]' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ui:Click.Target>
+          </ui:Click>
+          <Delay DisplayName="Delay — Wait for File Write (2s)" Duration="[TimeSpan.FromSeconds(2)]" sap:VirtualizedContainerService.HintSize="420,90" sap2010:WorkflowViewState.IdRef="Delay_FileWrite" />
+          <ucas:ReadStatusbar ContinueOnError="{x:Null}" MessageData="{x:Null}" MessageId="{x:Null}" MessageNumber="{x:Null}" DisplayName="ReadStatusbar — Verify No Error After Save (Dual-Check Part 2)" sap:VirtualizedContainerService.HintSize="420,266" sap2010:WorkflowViewState.IdRef="ReadStatusbar_AfterSave" MessageText="[strStatusBar]" MessageType="[strStatusBarType]">
+            <ucas:ReadStatusbar.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f1a00001-0014-0001-0001-000000000001" InformativeScreenshot="09557ba74f3fdfdc4ad1f651fa7639b2" Selector="&lt;wnd app='saplogon.exe' cls='SAP_FRONTEND_SESSION' /&gt;&lt;sap id='sbar/pane[0]' /&gt;">
+                <ui:Target.TimeoutMS>
+                  <InArgument x:TypeArguments="x:Int32" />
+                </ui:Target.TimeoutMS>
+                <ui:Target.WaitForReady>
+                  <InArgument x:TypeArguments="ui:WaitForReady" />
+                </ui:Target.WaitForReady>
+              </ui:Target>
+            </ucas:ReadStatusbar.Target>
+          </ucas:ReadStatusbar>
+          <ui:LogMessage DisplayName="Log — Status Bar After Save" sap:VirtualizedContainerService.HintSize="420,141" sap2010:WorkflowViewState.IdRef="LogMsg_PostSave" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Status bar after save: [&quot; &amp; strStatusBarType &amp; &quot;] &quot; &amp; strStatusBar]" />
+          <If Condition="[IO.File.Exists(strReportFilePath)]" DisplayName="If Report File Exists on Disk → Set out_strReportFilePath, Else → Throw BRE" sap:VirtualizedContainerService.HintSize="420,180" sap2010:WorkflowViewState.IdRef="If_FileExists">
+            <If.Then>
+              <Sequence DisplayName="Set out_strReportFilePath" sap:VirtualizedContainerService.HintSize="380,160" sap2010:WorkflowViewState.IdRef="Seq_FileOK">
+                <Assign DisplayName="Assign out_strReportFilePath" sap:VirtualizedContainerService.HintSize="340,82" sap2010:WorkflowViewState.IdRef="Assign_OutPath">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[out_strReportFilePath]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[strReportFilePath]</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <ui:LogMessage DisplayName="Log — Report File Created Successfully" sap:VirtualizedContainerService.HintSize="340,141" sap2010:WorkflowViewState.IdRef="LogMsg_FileOK" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Report exported: &quot; &amp; strReportFilePath]" />
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Throw DisplayName="Throw BRE — Report File Not Found After Export" Exception="[New BusinessRuleException(&quot;[PB_GenerateSAPReport] Export completed but file not found at: &quot; &amp; strReportFilePath &amp; &quot;. Verify PBReport_TempFolder in Config.xlsx exists and is writable.&quot;)]" sap:VirtualizedContainerService.HintSize="380,82" sap2010:WorkflowViewState.IdRef="Throw_NoFile" />
+            </If.Else>
+          </If>
+        </Sequence>
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="ui:BusinessRuleException" sap:VirtualizedContainerService.HintSize="462,21" sap2010:WorkflowViewState.IdRef="Catch_BRE">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ActivityAction x:TypeArguments="ui:BusinessRuleException">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="ui:BusinessRuleException" Name="bre" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Handle BusinessRuleException" sap:VirtualizedContainerService.HintSize="420,200" sap2010:WorkflowViewState.IdRef="Seq_BRE">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log [BRE] PB_GenerateSAPReport" sap:VirtualizedContainerService.HintSize="380,141" sap2010:WorkflowViewState.IdRef="LogMsg_BRE" Level="Error" Message="[&quot;[BRE][PB_GenerateSAPReport] &quot; &amp; bre.Message]" />
+              <Throw DisplayName="Re-Throw BRE" Exception="[bre]" sap:VirtualizedContainerService.HintSize="380,82" sap2010:WorkflowViewState.IdRef="Throw_BRE" />
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="462,21" sap2010:WorkflowViewState.IdRef="Catch_Ex">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="ex" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Handle ApplicationException" sap:VirtualizedContainerService.HintSize="420,200" sap2010:WorkflowViewState.IdRef="Seq_AppEx">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:LogMessage DisplayName="Log [AppEx] PB_GenerateSAPReport" sap:VirtualizedContainerService.HintSize="380,141" sap2010:WorkflowViewState.IdRef="LogMsg_AppEx" Level="Error" Message="[&quot;[AppEx][PB_GenerateSAPReport] &quot; &amp; ex.Message &amp; &quot; | Source: &quot; &amp; ex.Source]" />
+              <Throw DisplayName="Re-Throw Exception" Exception="[ex]" sap:VirtualizedContainerService.HintSize="380,82" sap2010:WorkflowViewState.IdRef="Throw_AppEx" />
+            </Sequence>
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+    <ui:LogMessage DisplayName="Log [PB_GenerateSAPReport] Done" sap:VirtualizedContainerService.HintSize="502,141" sap2010:WorkflowViewState.IdRef="LogMsg_Done" Level="Info" Message="[&quot;[PB_GenerateSAPReport] Done. ReportFilePath=&quot; &amp; out_strReportFilePath]" />
+  </Sequence>
+</Activity>

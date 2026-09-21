@@ -1,0 +1,13 @@
+# Real customer / configuration data - keep out of GitHub
+Data/Input/*
+!Data/Input/.gitkeep
+Data/Output/
+Data/Config.xlsx
+
+# Studio local/cache and runtime artifacts
+.local/
+.screenshots/
+Screenshots/
+Logs/
+*.nupkg
+~$*

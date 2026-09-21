@@ -1,0 +1,686 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Process" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:si="clr-namespace:System.IO;assembly=System.Private.CoreLib" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System.Net.Mail" xmlns:srx="clr-namespace:System.Text.RegularExpressions;assembly=System.Text.RegularExpressions" xmlns:ucas="clr-namespace:UiPath.Core.Activities.SAP;assembly=UiPath.UiAutomation.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="in_SAP" Type="InArgument(ui:Window)" />
+    <x:Property Name="in_dtCustomerMaster" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_dtMasterExcel" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_MailItem" Type="InArgument(snm:MailMessage)" />
+    <x:Property Name="in_TransactionID" Type="InArgument(x:String)" />
+    <x:Property Name="out_TransactionStatus" Type="OutArgument(x:String)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Activities.Runtime.Collections</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Text.RegularExpressions</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.Core.Activities.SAP</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.Mail</x:String>
+      <x:String>UiPath.Mail.Activities</x:String>
+      <x:String>UiPath.Mail.Outlook.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.UIAutomationCore.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="78">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Forms</AssemblyReference>
+      <AssemblyReference>Microsoft.Win32.Primitives</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.Collections.NonGeneric</AssemblyReference>
+      <AssemblyReference>System.Collections.Immutable</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.EventBasedAsync</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Configuration.ConfigurationManager</AssemblyReference>
+      <AssemblyReference>System.Console</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
+      <AssemblyReference>System.Diagnostics.Process</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Drawing.Common</AssemblyReference>
+      <AssemblyReference>System.Drawing.Primitives</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.AccessControl</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.DriveInfo</AssemblyReference>
+      <AssemblyReference>System.IO.FileSystem.Watcher</AssemblyReference>
+      <AssemblyReference>System.IO.Packaging</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Linq.Expressions</AssemblyReference>
+      <AssemblyReference>System.Linq.Parallel</AssemblyReference>
+      <AssemblyReference>System.Linq.Queryable</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.Net.Mail</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.DataContractSerialization</AssemblyReference>
+      <AssemblyReference>System.Private.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Private.Uri</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Reflection.DispatchProxy</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Reflection.TypeExtensions</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Formatters</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization.Primitives</AssemblyReference>
+      <AssemblyReference>System.Security.Permissions</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.ViewModels</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Process">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="strSubject" />
+      <Variable x:TypeArguments="x:String" Name="strBody" />
+      <Variable x:TypeArguments="x:String" Name="strSenderEmail" />
+      <Variable x:TypeArguments="x:String" Name="strSubjectTrimmed" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnIsFreshRequest" />
+      <Variable x:TypeArguments="x:Int32" Name="intFwCount" />
+      <Variable x:TypeArguments="x:String" Name="strCustomerID" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnIDValid" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnFound" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnActive" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnExcluded" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnAuthorized" />
+      <Variable x:TypeArguments="x:String" Name="strMatGroup" />
+      <Variable x:TypeArguments="x:String" Name="strMatGroup4" />
+      <Variable x:TypeArguments="x:String" Name="strBrandName" />
+      <Variable x:TypeArguments="x:Boolean" Default="True" Name="blnContinue" />
+      <Variable x:TypeArguments="x:String" Name="strTimestamp" />
+      <Variable x:TypeArguments="x:String" Name="strOutputFolder" />
+      <Variable x:TypeArguments="x:String" Name="strReport1Path" />
+      <Variable x:TypeArguments="x:String" Name="strCustomerName" />
+      <Variable x:TypeArguments="x:String" Name="strAccount" />
+      <Variable x:TypeArguments="x:String" Name="strGeneratedOn" />
+      <Variable x:TypeArguments="x:String" Name="strTotalAllProducts" />
+      <Variable x:TypeArguments="x:String" Name="strBillDateLow" />
+      <Variable x:TypeArguments="x:String" Name="strBillDateHigh" />
+      <Variable x:TypeArguments="x:Boolean" Name="blnHasOutstandingItems" />
+      <Variable x:TypeArguments="x:String" Name="strReport2Path" />
+      <Variable x:TypeArguments="x:String" Name="strPayInSlipPath" />
+      <Variable x:TypeArguments="x:String" Name="strTotalYourBrand" />
+    </Sequence.Variables>
+    <ui:LogMessage DisplayName="Log [Process] Start" Level="Info" Message="[&quot;[Process] Start Transaction #&quot; + in_TransactionID + &quot; | Subject=&quot; + in_MailItem.Subject]" />
+    <Assign DisplayName="Extract Subject/Body/Sender">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strSubject]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_MailItem.Subject, "")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Extract Body">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strBody]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_MailItem.Body, "")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Extract Sender Email">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strSenderEmail]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[If(in_MailItem.From IsNot Nothing, in_MailItem.From.Address, "")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Build strSubjectTrimmed">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[strSubjectTrimmed]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[strSubject.Trim()]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Check blnIsFreshRequest (Subject starts with [Outstanding])">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:Boolean">[blnIsFreshRequest]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:Boolean">[strSubjectTrimmed.StartsWith("[Outstanding]", StringComparison.OrdinalIgnoreCase)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <If Condition="[Not blnIsFreshRequest]" DisplayName="If Reply/Forward to a Robot Email - Forward to Collection Team and Stop (skips Sections 3-6 entirely)">
+      <If.Then>
+        <Sequence DisplayName="Forward to Collection Team">
+          <Assign sap2010:Annotation.AnnotationText="Circuit breaker (independent of root cause): if this subject already shows 2+ FW: prefixes, forwarding again would keep growing a loop instead of breaking it. Route to System Exception for a human instead." DisplayName="Count FW: Occurrences in Subject">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[intFwCount]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">[Regex.Matches(strSubjectTrimmed, "FW:", RegexOptions.IgnoreCase).Count]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <If Condition="[intFwCount &gt;= 2]" DisplayName="If Circuit Breaker Triggered - Possible Mail Loop">
+            <If.Then>
+              <Sequence DisplayName="Escalate as System Exception Instead of Forwarding Again">
+                <ui:LogMessage DisplayName="Log [CircuitBreaker] Possible Mail Loop" Level="Error" Message="[&quot;[CircuitBreaker] Subject has &quot; + intFwCount.ToString + &quot; 'FW:' occurrences - looks like a reply/forward loop, not forwarding again. Sender=&quot; + strSenderEmail + &quot; | Subject=&quot; + strSubjectTrimmed]" />
+                <TryCatch DisplayName="TryCatch Alert and Move (best-effort - do not crash the run over a loop-detection item)">
+                  <TryCatch.Try>
+                    <Sequence>
+                      <ui:InvokeWorkflowFile DisplayName="Invoke SendAlertEmail (Possible Mail Loop)" WorkflowFileName="Framework\SendAlertEmail.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_TransactionID">[in_TransactionID]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[""]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionType">PossibleMailLoop</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionMessage">[&quot;Subject contains &quot; + intFwCount.ToString + &quot; 'FW:' prefixes, suggesting a reply/forward loop. Full subject: &quot; + strSubject + &quot; | Sender: &quot; + strSenderEmail + &quot;. Robot did NOT forward again. Please check this item manually in Outlook and, if this is a genuine loop, check the OutstandingRequest intake rule and Mail_Exception_CC mailbox for a forward-back path.&quot;]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_ScreenshotPath">[""]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                      <ui:InvokeWorkflowFile DisplayName="Invoke MoveAndMarkEmail (ForwardedToCollection)" WorkflowFileName="Process\MoveAndMarkEmail.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="in_TargetFolder">[in_Config("OutlookFolder_ForwardedToCollection").ToString]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                    </Sequence>
+                  </TryCatch.Try>
+                  <TryCatch.Catches>
+                    <Catch x:TypeArguments="s:Exception">
+                      <ActivityAction x:TypeArguments="s:Exception">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="s:Exception" Name="exLoop" />
+                        </ActivityAction.Argument>
+                        <ui:LogMessage DisplayName="Log [CircuitBreaker] Alert/Move Failed" Level="Error" Message="[&quot;[CircuitBreaker] Alert email or move failed (item may still be sitting unmoved in the intake folder, but it was already marked read at fetch so it will not be reprocessed): &quot; + exLoop.Message]" />
+                      </ActivityAction>
+                    </Catch>
+                  </TryCatch.Catches>
+                </TryCatch>
+                <Assign DisplayName="Set Status = SystemException (Circuit Breaker)">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[out_TransactionStatus]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">SystemException</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <TryCatch sap2010:Annotation.AnnotationText="Atomic by construction: the forward email (SendOutlookMail) is irreversible once sent, so if the Move that follows it fails, we must NOT let the exception bubble up to Main's retry loop - that would re-invoke this whole transaction and re-send ANOTHER forward. Instead, catch locally, alert the admin directly, and terminate this transaction as SystemException without re-throwing." DisplayName="TryCatch Forward and Move (atomic - do not let Main retry re-send the forward)">
+                <TryCatch.Try>
+                  <Sequence DisplayName="Forward Then Move">
+                    <ui:InvokeWorkflowFile DisplayName="Invoke ForwardToCollectionTeam" WorkflowFileName="Process\ForwardToCollectionTeam.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                        <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <ui:InvokeWorkflowFile DisplayName="Invoke MoveAndMarkEmail (ForwardedToCollection)" WorkflowFileName="Process\MoveAndMarkEmail.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_TargetFolder">[in_Config("OutlookFolder_ForwardedToCollection").ToString]</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <Assign DisplayName="Set Status = Forwarded">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[out_TransactionStatus]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">Forwarded</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </Sequence>
+                </TryCatch.Try>
+                <TryCatch.Catches>
+                  <Catch x:TypeArguments="s:Exception">
+                    <ActivityAction x:TypeArguments="s:Exception">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="s:Exception" Name="exFwd" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Handle Forward/Move Failure Without Retrying">
+                        <ui:LogMessage DisplayName="Log [Forward] Move Failed After Send - Not Retrying" Level="Error" Message="[&quot;[Forward] The forward email may have already been sent, but the move/mark-as-read step failed: &quot; + exFwd.Message + &quot;. NOT retrying (would re-send the forward) - escalating as SystemException instead.&quot;]" />
+                        <ui:InvokeWorkflowFile DisplayName="Invoke SendAlertEmail (Forward Move Failure)" WorkflowFileName="Framework\SendAlertEmail.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_TransactionID">[in_TransactionID]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[""]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionType">ForwardMoveFailure</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_ExceptionMessage">[&quot;Forward to Collection team may have already been sent, but moving/marking the source item into OutlookFolder_ForwardedToCollection failed: &quot; + exFwd.ToString + &quot;. Check that this folder exists in Outlook, and manually move the source item (Subject: &quot; + strSubject + &quot;) so it is not reprocessed.&quot;]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_ScreenshotPath">[""]</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                        <Assign DisplayName="Set Status = SystemException (Forward/Move Failure)">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[out_TransactionStatus]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">SystemException</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </Sequence>
+                    </ActivityAction>
+                  </Catch>
+                </TryCatch.Catches>
+              </TryCatch>
+            </If.Else>
+          </If>
+          <Assign DisplayName="Set blnContinue = False">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">[blnContinue]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Fresh Request - Run Validation Cascade">
+    <ui:InvokeWorkflowFile DisplayName="Invoke ValidateCustomerIDFormat (3.1)" WorkflowFileName="Process\ValidateCustomerIDFormat.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">[strSubject]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Body">[strBody]</InArgument>
+        <OutArgument x:TypeArguments="x:String" x:Key="out_CustomerID">[strCustomerID]</OutArgument>
+        <OutArgument x:TypeArguments="x:Boolean" x:Key="out_IsValid">[blnIDValid]</OutArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <If Condition="[Not blnIDValid]" DisplayName="If 3.1 Failed - Invalid/Missing Customer ID">
+      <If.Then>
+        <Sequence DisplayName="Reply InvalidFormat and Stop">
+          <ui:InvokeWorkflowFile DisplayName="Invoke SendExceptionReply (InvalidFormat)" WorkflowFileName="Process\SendExceptionReply.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+              <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Reason">InvalidFormat</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[strCustomerID]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <ui:InvokeWorkflowFile DisplayName="Invoke MoveAndMarkEmail (Exception)" WorkflowFileName="Process\MoveAndMarkEmail.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_TargetFolder">[in_Config("OutlookFolder_Exception").ToString]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <Assign DisplayName="Set Status = BusinessException">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_TransactionStatus]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">BusinessException</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Set blnContinue = False">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Boolean">[blnContinue]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="" />
+      </If.Else>
+    </If>
+    <If Condition="[blnContinue]" DisplayName="If Continue - Run 3.2 Customer Master Lookup">
+      <If.Then>
+        <Sequence DisplayName="3.2 Customer Master Lookup">
+          <ui:InvokeWorkflowFile DisplayName="Invoke LookupCustomerMaster (3.2)" WorkflowFileName="Process\LookupCustomerMaster.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+              <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtCustomerMaster">[in_dtCustomerMaster]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[strCustomerID]</InArgument>
+              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Found">[blnFound]</OutArgument>
+              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Active">[blnActive]</OutArgument>
+              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Excluded">[blnExcluded]</OutArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <If Condition="[Not blnFound]" DisplayName="If Not Found">
+            <If.Then>
+              <Sequence DisplayName="Reply NotFound and Stop">
+                <ui:InvokeWorkflowFile DisplayName="Invoke SendExceptionReply (NotFound)" WorkflowFileName="Process\SendExceptionReply.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                    <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_Reason">NotFound</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[strCustomerID]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+                <ui:InvokeWorkflowFile DisplayName="Invoke MoveAndMarkEmail (Exception)" WorkflowFileName="Process\MoveAndMarkEmail.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_TargetFolder">[in_Config("OutlookFolder_Exception").ToString]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+                <Assign DisplayName="Set Status = BusinessException">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[out_TransactionStatus]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">BusinessException</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="Set blnContinue = False">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[blnContinue]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <If Condition="[Not blnActive]" DisplayName="If Not Active">
+                <If.Then>
+                  <Sequence DisplayName="Reply Inactive and Stop">
+                    <ui:InvokeWorkflowFile DisplayName="Invoke SendExceptionReply (Inactive)" WorkflowFileName="Process\SendExceptionReply.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                        <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_Reason">Inactive</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[strCustomerID]</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <ui:InvokeWorkflowFile DisplayName="Invoke MoveAndMarkEmail (Exception)" WorkflowFileName="Process\MoveAndMarkEmail.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_TargetFolder">[in_Config("OutlookFolder_Exception").ToString]</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <Assign DisplayName="Set Status = BusinessException">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[out_TransactionStatus]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">BusinessException</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <Assign DisplayName="Set blnContinue = False">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:Boolean">[blnContinue]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <If Condition="[blnExcluded]" DisplayName="If Excluded">
+                    <If.Then>
+                      <Sequence DisplayName="Reply Excluded and Stop">
+                        <ui:InvokeWorkflowFile DisplayName="Invoke SendExceptionReply (Excluded)" WorkflowFileName="Process\SendExceptionReply.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                            <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_Reason">Excluded</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[strCustomerID]</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                        <ui:InvokeWorkflowFile DisplayName="Invoke MoveAndMarkEmail (Exception)" WorkflowFileName="Process\MoveAndMarkEmail.xaml">
+                          <ui:InvokeWorkflowFile.Arguments>
+                            <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_TargetFolder">[in_Config("OutlookFolder_Exception").ToString]</InArgument>
+                          </ui:InvokeWorkflowFile.Arguments>
+                        </ui:InvokeWorkflowFile>
+                        <Assign DisplayName="Set Status = BusinessException">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[out_TransactionStatus]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">BusinessException</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign DisplayName="Set blnContinue = False">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[blnContinue]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </Sequence>
+                    </If.Then>
+                    <If.Else>
+                      <Sequence DisplayName="" />
+                    </If.Else>
+                  </If>
+                </If.Else>
+              </If>
+            </If.Else>
+          </If>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="" />
+      </If.Else>
+    </If>
+    <If Condition="[blnContinue]" DisplayName="If Continue - Run 3.3 Sender Authorization">
+      <If.Then>
+        <Sequence DisplayName="3.3 Sender Authorization">
+          <ui:InvokeWorkflowFile DisplayName="Invoke LookupSenderAuthorization (3.3)" WorkflowFileName="Process\LookupSenderAuthorization.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dtMasterExcel">[in_dtMasterExcel]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_Authorized">[blnAuthorized]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_MatGroup">[strMatGroup]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_MatGroup4">[strMatGroup4]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_BrandName">[strBrandName]</OutArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <If Condition="[Not blnAuthorized]" DisplayName="If Not Authorized">
+            <If.Then>
+              <Sequence DisplayName="Reply NotAuthorized and Stop">
+                <ui:InvokeWorkflowFile DisplayName="Invoke SendExceptionReply (NotAuthorized)" WorkflowFileName="Process\SendExceptionReply.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+                    <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_Reason">NotAuthorized</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[strCustomerID]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+                <ui:InvokeWorkflowFile DisplayName="Invoke MoveAndMarkEmail (Exception)" WorkflowFileName="Process\MoveAndMarkEmail.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_TargetFolder">[in_Config("OutlookFolder_Exception").ToString]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+                <Assign DisplayName="Set Status = BusinessException">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[out_TransactionStatus]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">BusinessException</InArgument>
+                  </Assign.Value>
+                </Assign>
+                <Assign DisplayName="Set blnContinue = False">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Boolean">[blnContinue]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Boolean">[False]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </Sequence>
+            </If.Then>
+            <If.Else>
+              <Sequence DisplayName="" />
+            </If.Else>
+          </If>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="" />
+      </If.Else>
+    </If>
+    <If Condition="[blnContinue]" DisplayName="If Continue - Extract SAP Reports and Reply Success">
+      <If.Then>
+        <Sequence DisplayName="Section 4/5/6.1 - Extract and Reply">
+          <Assign DisplayName="Build strTimestamp (shared by Report1 and Report2)">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[strTimestamp]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Now.ToString("yyyyMMdd_HHmmss")]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <Assign DisplayName="Build strOutputFolder">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[strOutputFolder]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[Path.Combine(in_Config("OutputBasePath").ToString, strCustomerID + "_" + strTimestamp) + "\"]</InArgument>
+            </Assign.Value>
+          </Assign>
+          <ui:InvokeWorkflowFile DisplayName="Invoke ExtractReport1_CustomerStatement (Section 4)" WorkflowFileName="Process\ExtractReport1_CustomerStatement.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+              <InArgument x:TypeArguments="ui:Window" x:Key="in_SAP">[in_SAP]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[strCustomerID]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_OutputFolder">[strOutputFolder]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Timestamp">[strTimestamp]</InArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_ReportFilePath">[strReport1Path]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_CustomerName">[strCustomerName]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_Account">[strAccount]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_GeneratedOn">[strGeneratedOn]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_TotalAllProducts">[strTotalAllProducts]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_BillDateLow">[strBillDateLow]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_BillDateHigh">[strBillDateHigh]</OutArgument>
+              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_HasOutstandingItems">[blnHasOutstandingItems]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_PayInSlipPath">[strPayInSlipPath]</OutArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <ui:InvokeWorkflowFile DisplayName="Invoke ExtractReport2_DailySalesReport (Section 5)" WorkflowFileName="Process\ExtractReport2_DailySalesReport.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+              <InArgument x:TypeArguments="ui:Window" x:Key="in_SAP">[in_SAP]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_CustomerID">[strCustomerID]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_MatGroup">[strMatGroup]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_MatGroup4">[strMatGroup4]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Report1FilePath">[strReport1Path]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_BillDateLow">[strBillDateLow]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_BillDateHigh">[strBillDateHigh]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_OutputFolder">[strOutputFolder]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Timestamp">[strTimestamp]</InArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_ReportFilePath">[strReport2Path]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_TotalYourBrand">[strTotalYourBrand]</OutArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <ui:InvokeWorkflowFile DisplayName="Invoke SendSuccessReply (Section 6.1)" WorkflowFileName="Process\SendSuccessReply.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+              <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_SenderEmail">[strSenderEmail]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_CustomerName">[strCustomerName]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Account">[strAccount]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_GeneratedOn">[strGeneratedOn]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_TotalAllProducts">[strTotalAllProducts]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_TotalYourBrand">[strTotalYourBrand]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_BrandName">[strBrandName]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Report1FilePath">[strReport1Path]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Report2FilePath">[strReport2Path]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_PayInSlipPath">[strPayInSlipPath]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <ui:InvokeWorkflowFile DisplayName="Invoke MoveAndMarkEmail (Processed)" WorkflowFileName="Process\MoveAndMarkEmail.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="snm:MailMessage" x:Key="in_MailItem">[in_MailItem]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_TargetFolder">[in_Config("OutlookFolder_Processed").ToString]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+          <Assign DisplayName="Set Status = Successful">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[out_TransactionStatus]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">Successful</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="" />
+      </If.Else>
+    </If>
+        </Sequence>
+      </If.Else>
+    </If>
+    <ui:LogMessage DisplayName="Log [Process] Done" Level="Info" Message="[&quot;[Process] Done Transaction #&quot; + in_TransactionID + &quot; | Status=&quot; + out_TransactionStatus + &quot; | CustomerID=&quot; + strCustomerID]" />
+  </Sequence>
+</Activity>
